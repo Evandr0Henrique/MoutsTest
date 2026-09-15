@@ -30,17 +30,14 @@ public class Program
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<DefaultContext>(options =>
-                options.UseNpgsql(
-                    builder.Configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM")
-                )
+                options.UseInMemoryDatabase("DeveloperEvaluation")
             );
 
             builder.Services.AddJwtAuthentication(builder.Configuration);
 
             builder.RegisterDependencies();
 
-            builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(ApplicationLayer).Assembly);
+            builder.Services.AddAutoMapper(cfg => { }, typeof(Program).Assembly, typeof(ApplicationLayer).Assembly);
 
             builder.Services.AddMediatR(cfg =>
             {
